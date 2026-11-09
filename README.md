@@ -6,7 +6,7 @@
 
 **One shared source of truth for every AI.**
 
-Turn scattered conversations and memories into structured, up-to-date information every AI can rely on.
+Keep important facts, decisions, and progress structured and up to date.
 
 SaveSlot is an open-source foundation for persistent, user-owned state across AI agents.
 
@@ -15,6 +15,18 @@ It gives connected agents a shared, living record of your goals, decisions, task
 > 🚧 **Early stage.** SaveSlot is under active development. The capabilities described below are design goals (Planned) and are not yet released. Installation steps and a working demo will be added here.
 
 ---
+
+## Your AI remembers the conversation. But does it know what's current?
+
+| | What you said | Scattered memory | SaveSlot |
+|---|---|---|---|
+| **The plan changed** | Earlier: "Launch is set for Friday."<br>Later: "Launch moved to next Tuesday." | 🤔 Friday? Or next Tuesday? | **Launch date: next Tuesday**<br>Friday · changed |
+| **The work got done** | Yesterday: "Landing page is done. Payments still to go."<br>Today: "Payments are live too." | ❌ "Next, let's hook up payments." | ✅ Landing page<br>✅ Payments |
+| **The decision changed** | Last week: "We're going with Plan A."<br>This week: "After review, we're switching to Plan B." | 🤔 Plan A and Plan B are both still in memory. | **Current decision: Plan B**<br>Plan A · superseded |
+
+State changes. Tasks get done. Decisions get replaced. Saving more memories doesn't guarantee your AI uses what's current.
+
+<sub>Illustrates the planned experience. The middle column shows what can go wrong when an AI relies on scattered history — not every memory product makes these mistakes.</sub>
 
 ## The problem: AI remembers you. It still can't pick up where you left off.
 
