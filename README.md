@@ -16,35 +16,28 @@ It gives connected agents a shared, living record of your goals, decisions, task
 
 ---
 
-## The problem: AI conversations end. Your work doesn't.
+## The problem: AI remembers you. It still can't pick up where you left off.
 
-Every agent has its own context. But your work spans conversations, tools, and models.
+- You settle a plan in ChatGPT yesterday, then re-explain it to Claude today.
+- One agent finishes a task; another still thinks it hasn't started.
+- Your AI knows your goal, but not how far along you are, which decision changed, or what's next.
+- Your projects, health, finances, and daily life are scattered across apps and chat logs.
 
-You shouldn't have to repeatedly explain:
+**That's not a memory problem. It's a continuity problem.**
 
-- What has already been decided
-- Which tasks are finished
-- What has changed since the last session
-- What still needs to happen
+## Memory → State → Continuity
 
-**That's not just a memory problem. It's a continuity problem.**
+- **Memory** — what an AI remembers about you.
+- **State** — where things actually stand: goals, decisions, tasks, and records, kept correct and current.
+- **Continuity** — every AI working from that same state, with nothing to re-explain.
 
-## Beyond agent memory
+Many memory tools now persist across sessions and agents. SaveSlot differs in its core object: not memories or context, but your state, maintained as data.
 
-**Memory asks:** What should this agent remember?
-
-**SaveSlot asks:** Where do things stand, and what happens next?
-
-SaveSlot focuses on the ongoing state of a person's work — not just recalling information from previous conversations.
-
-|                  | Typical memory use case     | SaveSlot's focus                  |
-| ---------------- | --------------------------- | --------------------------------- |
-| Primary question | What should I recall?       | Where do things stand?            |
-| Core data        | Facts, preferences, context | Goals, decisions, tasks, progress |
-| Updates          | Remember new information    | Track changes and completed work  |
-| Outcome          | Better-informed responses   | Continuity across agents          |
-
-These approaches are complementary. SaveSlot is designed around continuity as the primary use case.
+|             | Memory layers            | SaveSlot                                     |
+| ----------- | ------------------------ | -------------------------------------------- |
+| Core object | Memories and context     | Your state: goals, decisions, tasks, records |
+| On change   | Add or update a memory   | Update the record, keep its history and source |
+| Goal        | Recall the right context | Keep every AI working from the same facts    |
 
 ## One shared state. Different agents.
 
