@@ -2,15 +2,15 @@
 
 **English** · [简体中文](README.zh-CN.md)
 
-### New agent. Same progress.
+### Memory isn't enough.
 
 **One shared source of truth for every AI.**
+
+Turn scattered conversations and memories into structured, up-to-date information every AI can rely on.
 
 SaveSlot is an open-source foundation for persistent, user-owned state across AI agents.
 
 It gives connected agents a shared, living record of your goals, decisions, tasks, and progress — so they know what's done, what's changed, and what's next.
-
-**Switch agents. Keep moving.**
 
 > 🚧 **Early stage.** SaveSlot is under active development. The capabilities described below are design goals (Planned) and are not yet released. Installation steps and a working demo will be added here.
 
