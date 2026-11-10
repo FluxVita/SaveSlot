@@ -2,7 +2,7 @@
 
 **English** · [简体中文](README.zh-CN.md)
 
-### Memory isn't enough.
+### Memory is not enough.
 
 **One shared source of truth for every AI.**
 
@@ -24,7 +24,7 @@ It gives connected agents a shared, living record of your goals, decisions, task
 | **The work got done** | Yesterday: "Landing page is done. Payments still to go."<br>Today: "Payments are live too." | ❌ "Next, let's hook up payments." | ✅ Landing page<br>✅ Payments |
 | **The decision changed** | Last week: "We're going with Plan A."<br>This week: "After review, we're switching to Plan B." | 🤔 Plan A and Plan B are both still in memory. | **Current decision: Plan B**<br>Plan A · superseded |
 
-State changes. Tasks get done. Decisions get replaced. Saving more memories doesn't guarantee your AI uses what's current.
+State changes. Tasks get done. Decisions get replaced. Saving more memories is not enough to keep your AI current.
 
 <sub>Illustrates the planned experience. The middle column shows what can go wrong when an AI relies on scattered history — not every memory product makes these mistakes.</sub>
 
