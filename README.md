@@ -1,73 +1,87 @@
-# SaveSlot
+<div align="center">
 
-**English** · [简体中文](README.zh-CN.md)
+# SaveSlot
 
 ### Memory isn't enough.
 
-**Trusted state for every AI.** · Open-source Personal Agent State Layer.
+**Trusted state for every AI.**<br>
+Open-source Personal Agent State Layer
 
-Context rot can hide important changes in long tasks. Requirements change, tool results stay uncertain, and agents may act on stale assumptions—even within one session.
+![Status](https://img.shields.io/badge/status-early%20design-orange)
+![Capabilities](https://img.shields.io/badge/capabilities-planned-lightgrey)
 
-SaveSlot is designed to track, update, validate, and retrieve concise current state — with source, evidence, time, version, permission, and an explicit trust marker — throughout an agent's execution.
+[Website](https://saveslot.ai) · [简体中文](README.zh-CN.md) · [Roadmap](#roadmap)
 
-> 🚧 **Early stage.** Everything below describes the product direction. All capabilities are **Planned**; see the [feature matrix](#feature-matrix) for verified availability.
+</div>
 
 ---
 
-## State drift happens within a session
+Long tasks drift. Requirements change, tool calls time out, systems disagree — and an agent may keep acting on what *used to be* true, even within a single session.
 
-One agent, one long-running session. Three things that go wrong without a trusted state view:
+SaveSlot maintains a **Trusted State View**: a compact picture of current state, where every item says where it came from and how sure it is.
 
-| | What happened | Trusted State View (target) |
+```yaml
+# Trusted State View (illustrative — not yet implemented)
+constraints:
+  - value: "Only admins may export orders"
+    status: confirmed         # by user, latest instruction
+    supersedes: "Export orders for everyone"
+tasks:
+  - value: "Deploy v2"
+    status: unknown           # request timed out
+    next: verify with the deployment system
+  - value: "Checkout feature"
+    status: conflicted        # tracker: complete · tests: failing
+```
+
+> [!NOTE]
+> **Early stage.** This README describes the product direction. Nothing here is implemented yet — see [Status](#status).
+
+## Why
+
+- 🧭 **Context isn't current state.** An agent can still "remember" an instruction after it was changed.
+- ⏱️ **A tool call isn't a result.** A timed-out deploy is *unknown*, not *done*.
+- ⚖️ **Sources disagree.** Conflicts should surface, not be silently overwritten.
+
+Remembering isn't the same as staying current.
+
+## Trust markers
+
+| | Marker | Meaning |
 |---|---|---|
-| **Constraint changed** | Earlier: "Export orders for everyone."<br>Later: "Only admins may export orders." | **Confirmed** (by user): admin-only export.<br>Previous constraint kept as *superseded*, with time and version. |
-| **Tool result uncertain** | "Deploy version 2."<br>Tool: request timed out, no success confirmation. | **Unknown**: deployment outcome.<br>Next step: verify with the deployment system. Not marked complete. |
-| **Evidence conflicts** | Project tracker: "Task complete."<br>Test system: "Required tests still failing." | **Conflicted**: both sources and timestamps kept.<br>No silent overwrite; asks for reconciliation. |
+| 🟢 | **Confirmed** | An appropriate authoritative source confirmed it. Not absolute truth. |
+| 🔵 | **Inferred** | Derived from evidence. Never silently upgraded. |
+| ⚪ | **Unknown** | Missing or unverifiable. Admit it, don't guess. |
+| 🟠 | **Conflicted** | Sources disagree. Reconcile, don't pick a side. |
 
-<sub>Illustrative target experience. Not a claim that every memory product makes these mistakes.</sub>
+Every item also carries time, version, source, and permission. State is evidence-backed, not guaranteed true.
 
-**Remembering isn't the same as staying current.**
-
-## Trusted State View
-
-Know what is current, confirmed, inferred, unknown, or conflicted before the next action. A compact view of current state, returned before an agent decides. Each item carries one trust marker:
-
-| Marker | Meaning |
-|---|---|
-| **Confirmed** | An appropriate authoritative source confirmed it — who, where, when. Not a claim of absolute truth. |
-| **Inferred** | Derived from conversation or tool evidence, not yet confirmed. Never silently upgraded. |
-| **Unknown** | Missing or unverifiable. The agent should admit uncertainty, not fill the gap. |
-| **Conflicted** | Sources disagree. Resolved by permission, source priority, and confirmation — not by guessing. |
-
-Every item also records time, validity, version, source/evidence, and permission. *Stale* can apply alongside any marker.
-
-**State is evidence-backed, not guaranteed true.**
-
-## Feature matrix
+## Status
 
 | Capability | What it does | Status |
 |---|---|---|
-| State Tracking | Goals, constraints, plans, decisions, commitments, and key progress as explicit objects | Planned |
-| State Updates | Update from new instructions, tool results, and external changes; keep versions and superseded / effective relations | Planned |
-| State Validation | Assign Confirmed / Inferred / Unknown / Conflicted; flag stale items; show evidence | Planned |
-| State Retrieval | Return a compact, relevant Trusted State View before a decision | Planned |
-| Trust markers | Confirmed · Inferred · Unknown · Conflicted | Planned |
-| API · MCP · SDK | Integration surfaces | Planned |
+| **Track** | Goals, constraints, plans, decisions, progress as explicit objects | 🔜 Planned |
+| **Update** | Apply new instructions and tool results, keep versions | 🔜 Planned |
+| **Validate** | Assign trust markers, flag stale items | 🔜 Planned |
+| **Retrieve** | Return a compact view before each action | 🔜 Planned |
+| **API · MCP · SDK** | Integration surfaces | 🔜 Planned |
 
-Statuses will move to *Partial* or *Implemented & verified* only with a reproducible demo.
+A status changes only with a reproducible demo.
 
 ## What SaveSlot is not
 
-- **Not a runtime, checkpoint, or workflow engine.** It does not save or restore execution stacks, processes, or scheduling. Those tools can work alongside it.
-- **Not a truth arbiter.** Source systems own business facts, rules, and write access. SaveSlot does not replace them.
-- **Not a write-access grant.** Reading state does not give an agent permission to change other systems.
+- **Not a runtime, checkpoint, or workflow engine.** It works alongside them.
+- **Not a truth arbiter.** Source systems own business facts and write access.
+- **Not a permission grant.** Reading state doesn't let an agent change other systems.
 
 ## Roadmap
 
-- **P0** — Single agent, single session: state drift in long tasks and multi-step tool calls.
-- **P1** — Single agent across sessions; changes and conflicts across source systems.
-- **P2** — Authorized sharing across agents, with versioned conflict handling.
+- [ ] **P0** · Single agent, single session — state drift in long tasks and multi-step tool calls
+- [ ] **P1** · Across sessions and source systems
+- [ ] **P2** · Authorized sharing across agents
 
 ---
 
-**SaveSlot — Help agents act on trusted, traceable state, not stale context.**
+<div align="center">
+<sub><b>SaveSlot</b> · Memory isn't enough. · Trusted state for every AI.</sub>
+</div>
