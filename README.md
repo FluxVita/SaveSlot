@@ -2,86 +2,72 @@
 
 **English** · [简体中文](README.zh-CN.md)
 
-### Memory is not enough.
+### Memory isn't enough.
 
-**One shared source of truth for every AI.**
+**Open-source Personal Agent State Layer · Trusted State View.**
 
-Keep important facts, decisions, and progress structured and up to date.
+Don't let agents mistake stale assumptions for current state. Even in one session, requirements change, plans evolve, and tool results may be uncertain.
 
-SaveSlot is an open-source foundation for persistent, user-owned state across AI agents.
+SaveSlot is designed to track, update, validate, and retrieve concise current state — with source, evidence, time, version, permission, and an explicit trust marker — throughout an agent's execution.
 
-It gives connected agents a shared, living record of your goals, decisions, tasks, and progress — so they know what's done, what's changed, and what's next.
-
-> 🚧 **Early stage.** SaveSlot is under active development. The capabilities described below are design goals (Planned) and are not yet released. Installation steps and a working demo will be added here.
+> 🚧 **Early stage.** Everything below describes the product direction. All capabilities are **Planned**; see the [feature matrix](#feature-matrix) for verified availability.
 
 ---
 
-## Your AI remembers the conversation. But does it know what's current?
+## State drift happens within a session
 
-| | What you said | Scattered memory | SaveSlot |
-|---|---|---|---|
-| **The plan changed** | Earlier: "Launch is set for Friday."<br>Later: "Launch moved to next Tuesday." | 🤔 Friday? Or next Tuesday? | **Launch date: next Tuesday**<br>Friday · changed |
-| **The work got done** | Yesterday: "Landing page is done. Payments still to go."<br>Today: "Payments are live too." | ❌ "Next, let's hook up payments." | ✅ Landing page<br>✅ Payments |
-| **The decision changed** | Last week: "We're going with Plan A."<br>This week: "After review, we're switching to Plan B." | 🤔 Plan A and Plan B are both still in memory. | **Current decision: Plan B**<br>Plan A · superseded |
+One agent, one long-running session. Three things that go wrong without a trusted state view:
 
-State changes. Tasks get done. Decisions get replaced. Saving more memories is not enough to keep your AI current.
+| | What happened | Trusted State View (target) |
+|---|---|---|
+| **Constraint changed** | Earlier: "Export orders for everyone."<br>Later: "Only admins may export orders." | **Confirmed** (by user): admin-only export.<br>Previous constraint kept as *superseded*, with time and version. |
+| **Tool result uncertain** | "Deploy version 2."<br>Tool: request timed out, no success confirmation. | **Unknown**: deployment outcome.<br>Next step: verify with the deployment system. Not marked complete. |
+| **Evidence conflicts** | Project tracker: "Task complete."<br>Test system: "Required tests still failing." | **Conflicted**: both sources and timestamps kept.<br>No silent overwrite; asks for reconciliation. |
 
-<sub>Illustrates the planned experience. The middle column shows what can go wrong when an AI relies on scattered history — not every memory product makes these mistakes.</sub>
+<sub>Illustrative target experience. Not a claim that every memory product makes these mistakes.</sub>
 
-## The problem: AI remembers you. It still can't pick up where you left off.
+**Remembering isn't the same as staying current.** Track what is confirmed, inferred, unknown, or conflicted before the next action.
 
-- You settle a plan in ChatGPT yesterday, then re-explain it to Claude today.
-- One agent finishes a task; another still thinks it hasn't started.
-- Your AI knows your goal, but not how far along you are, which decision changed, or what's next.
-- Your projects, health, finances, and daily life are scattered across apps and chat logs.
+## Trusted State View
 
-**That's not a memory problem. It's a continuity problem.**
+A compact view of current state, returned before an agent decides. Each item carries one trust marker:
 
-## Memory → State → Continuity
+| Marker | Meaning |
+|---|---|
+| **Confirmed** | An appropriate authoritative source confirmed it — who, where, when. Not a claim of absolute truth. |
+| **Inferred** | Derived from conversation or tool evidence, not yet confirmed. Never silently upgraded. |
+| **Unknown** | Missing or unverifiable. The agent should admit uncertainty, not fill the gap. |
+| **Conflicted** | Sources disagree. Resolved by permission, source priority, and confirmation — not by guessing. |
 
-- **Memory** — what an AI remembers about you.
-- **State** — where things actually stand: goals, decisions, tasks, and records, kept correct and current.
-- **Continuity** — every AI working from that same state, with nothing to re-explain.
+Every item also records time, validity, version, source/evidence, and permission. *Stale* can apply alongside any marker.
 
-Many memory tools now persist across sessions and agents. SaveSlot differs in its core object: not memories or context, but your state, maintained as data.
+**State is evidence-backed, not guaranteed true.**
 
-|             | Memory layers            | SaveSlot                                     |
-| ----------- | ------------------------ | -------------------------------------------- |
-| Core object | Memories and context     | Your state: goals, decisions, tasks, records |
-| On change   | Add or update a memory   | Update the record, keep its history and source |
-| Goal        | Recall the right context | Keep every AI working from the same facts    |
+## Feature matrix
 
-## One shared state. Different agents.
+| Capability | What it does | Status |
+|---|---|---|
+| State Tracking | Goals, constraints, plans, decisions, commitments, and key progress as explicit objects | Planned |
+| State Updates | Update from new instructions, tool results, and external changes; keep versions and superseded / effective relations | Planned |
+| State Validation | Assign Confirmed / Inferred / Unknown / Conflicted; flag stale items; show evidence | Planned |
+| State Retrieval | Return a compact, relevant Trusted State View before a decision | Planned |
+| Trust markers | Confirmed · Inferred · Unknown · Conflicted | Planned |
+| API · MCP · SDK | Integration surfaces | Planned |
 
-**Agent A**
+Statuses will move to *Partial* or *Implemented & verified* only with a reproducible demo.
 
-> "We've approved the design and completed the landing page. The launch email is still pending."
+## What SaveSlot is not
 
-**SaveSlot**
+- **Not a runtime, checkpoint, or workflow engine.** It does not save or restore execution stacks, processes, or scheduling. Those tools can work alongside it.
+- **Not a truth arbiter.** Source systems own business facts, rules, and write access. SaveSlot does not replace them.
+- **Not a write-access grant.** Reading state does not give an agent permission to change other systems.
 
-> Project: Product launch<br>
-> Design: Approved<br>
-> Landing page: Complete<br>
-> Launch email: Pending
+## Roadmap
 
-**Agent B**
-
-> "The design and landing page are done. Let's work on the launch email."
-
-No repeated briefings. No losing track of progress.
-
-## Built around the user's state
-
-SaveSlot's design centers on:
-
-- **Persistent state** — Ongoing work outlives individual agent sessions.
-- **Shared access** — Authorized agents work with the same current state.
-- **Structured progress** — Goals, decisions, tasks, and next steps are first-class concepts.
-- **Traceable changes** — State evolves with clear updates and history.
-- **User ownership** — Personal state stays independent of any single agent provider.
+- **P0** — Single agent, single session: state drift in long tasks and multi-step tool calls.
+- **P1** — Single agent across sessions; changes and conflicts across source systems.
+- **P2** — Authorized sharing across agents, with versioned conflict handling.
 
 ---
 
-### Agents are replaceable. Your progress isn't.
-
-**SaveSlot — Keep the state. Change the agent.**
+**SaveSlot — Help agents act on trusted, traceable state, not stale context.**
