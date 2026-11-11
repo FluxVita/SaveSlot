@@ -4,9 +4,9 @@
 
 ### Memory isn't enough.
 
-**Open-source Personal Agent State Layer · Trusted State View.**
+**Trusted state for every AI.** · Open-source Personal Agent State Layer.
 
-Don't let agents mistake stale assumptions for current state. Even in one session, requirements change, plans evolve, and tool results may be uncertain.
+Context rot can hide important changes in long tasks. Requirements change, tool results stay uncertain, and agents may act on stale assumptions—even within one session.
 
 SaveSlot is designed to track, update, validate, and retrieve concise current state — with source, evidence, time, version, permission, and an explicit trust marker — throughout an agent's execution.
 
@@ -26,11 +26,11 @@ One agent, one long-running session. Three things that go wrong without a truste
 
 <sub>Illustrative target experience. Not a claim that every memory product makes these mistakes.</sub>
 
-**Remembering isn't the same as staying current.** Track what is confirmed, inferred, unknown, or conflicted before the next action.
+**Remembering isn't the same as staying current.**
 
 ## Trusted State View
 
-A compact view of current state, returned before an agent decides. Each item carries one trust marker:
+Know what is current, confirmed, inferred, unknown, or conflicted before the next action. A compact view of current state, returned before an agent decides. Each item carries one trust marker:
 
 | Marker | Meaning |
 |---|---|
